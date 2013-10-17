@@ -4,7 +4,7 @@ require "./gcd.rb"
 
 class Fraccion
   
-  attr_reader :x, :y
+  attr_reader :num, :den
   
   def initialize(numerador, denominador)
     
@@ -14,25 +14,49 @@ class Fraccion
   
   def to_s
     
-    "(#{@num},#{@den})"
+    "(#{@num}/#{@den})"
     
   end
   
-  def suma (numerador,denominador)
-    aux=numerador+@num
-    if denominador == @den
-      p3=Fraccion.new(aux, denominador)
-    else
-	 nden=gcd(denominador,@den)
-      p3=Fraccion.new(aux, nden)
-    end 
+  def reduccion
+    com_div = gcd(@num,@den)
+    @num=@num/com_div
+    @den=@den/com_div
+    #Fraccion.new(@num/com_div,@den/com_div)
   end
-    
+  
+  def suma (numerador,denominador)
+      if denominador == @den
+	  aux=numerador+@num
+	  puts " Denominadores iguales "
+	  p3=Fraccion.new(aux, denominador)
+      else
+	  puts " Denominadores diferentes "
+	  numaux=(@num*denominador)+(numerador*@den)
+	  denaux=@den*denominador
+	  p3=Fraccion.new(numaux, denaux)
+      end 
+    p3.reduccion
+    puts p3.to_s
+   end
+   
+  def resta (numerador,denominador)
+    if denominador == @den
+	  aux=numerador-@num
+	  puts " Denominadores iguales "
+	  p3=Fraccion.new(aux, denominador)
+      else
+	  puts " Denominadores diferentes "
+	  numaux=(@num*denominador)-(numerador*@den)
+	  denaux=@den*denominador
+	  p3=Fraccion.new(numaux, denaux)
+      end 
+    p3.reduccion
+    puts p3.to_s
+  end
     
 end
 
 
-
-p1=Fraccion.new(3,1).suma(3,1)
-p2=Fraccion.new(3,1).suma(3,2)
-puts p3.to_s
+p1=Fraccion.new(3,5).suma(3,3)
+p2=Fraccion.new(2,2).resta(4,2)
